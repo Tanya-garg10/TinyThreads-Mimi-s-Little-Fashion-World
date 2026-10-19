@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, BookOpen, Sparkles, Heart } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
 
@@ -18,6 +18,11 @@ interface InteractiveStorybookProps {
 
 export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nightMode }) => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'next' | 'prev' | null>(null);
+  const [displayPage, setDisplayPage] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const pages: StorybookPage[] = [
     {
@@ -181,32 +186,71 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' && currentPage < pages.length - 1) {
-        audioManager.playClickSound();
-        setCurrentPage((prev) => prev + 1);
+        goToNext();
       } else if (e.key === 'ArrowLeft' && currentPage > 0) {
-        audioManager.playClickSound();
-        setCurrentPage((prev) => prev - 1);
+        goToPrev();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentPage, pages.length]);
 
+  // Touch gesture support
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].screenX;
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (diff > swipeThreshold && currentPage < pages.length - 1) {
+      goToNext();
+    } else if (diff < -swipeThreshold && currentPage > 0) {
+      goToPrev();
+    }
+  };
+
   const goToNext = () => {
-    if (currentPage < pages.length - 1) {
+    if (currentPage < pages.length - 1 && !isAnimating) {
       audioManager.playClickSound();
-      setCurrentPage(currentPage + 1);
+      setIsAnimating(true);
+      setAnimationDirection('next');
+      setDisplayPage(currentPage); // Show current page during flip out
+      setTimeout(() => {
+        setCurrentPage(currentPage + 1);
+        setDisplayPage(currentPage + 1); // Show new page after flip
+        setTimeout(() => {
+          setIsAnimating(false);
+          setAnimationDirection(null);
+        }, 400);
+      }, 400);
     }
   };
 
   const goToPrev = () => {
-    if (currentPage > 0) {
+    if (currentPage > 0 && !isAnimating) {
       audioManager.playClickSound();
-      setCurrentPage(currentPage - 1);
+      setIsAnimating(true);
+      setAnimationDirection('prev');
+      setDisplayPage(currentPage); // Show current page during flip out
+      setTimeout(() => {
+        setCurrentPage(currentPage - 1);
+        setDisplayPage(currentPage - 1); // Show new page after flip
+        setTimeout(() => {
+          setIsAnimating(false);
+          setAnimationDirection(null);
+        }, 400);
+      }, 400);
     }
   };
 
-  const activePageData = pages[currentPage];
+  const activePageData = pages[displayPage];
 
   return (
     <div
@@ -241,24 +285,37 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
               onClick={() => {
                 audioManager.playClickSound();
                 setCurrentPage(idx);
+                setDisplayPage(idx);
               }}
               aria-label={`Go to page ${idx + 1}`}
               className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
-                currentPage === idx
+                displayPage === idx
                   ? 'bg-[#A34063] scale-125'
                   : 'bg-[#EABAC8] hover:bg-[#A34063]/60'
               }`}
             />
           ))}
           <span className="text-xs font-mono font-bold ml-2">
-            Page {currentPage + 1} of {pages.length}
+            Page {displayPage + 1} of {pages.length}
           </span>
         </div>
       </div>
 
       {/* Main Page Turn Viewport */}
-      <div className="p-6 sm:p-10 relative min-h-[380px] flex items-center">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full animate-in fade-in duration-300">
+      <div
+        className="p-6 sm:p-10 relative min-h-[380px] flex items-center"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className={`grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full ${
+            isAnimating
+              ? animationDirection === 'next'
+                ? 'animate-[flipOutRight_0.4s_ease-in-out]'
+                : 'animate-[flipOutLeft_0.4s_ease-in-out]'
+              : 'animate-in fade-in duration-300'
+          }`}
+        >
           
           {/* Left: Illustrated Story Vignette */}
           <div className="md:col-span-5 flex flex-col items-center justify-center">
@@ -316,7 +373,7 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
         <button
           type="button"
           onClick={goToPrev}
-          disabled={currentPage === 0}
+          disabled={displayPage === 0}
           className="px-4 py-2 rounded-full border-2 border-[#5C4033] text-xs font-rounded font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-black/5 flex items-center gap-1.5 cursor-pointer"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -324,13 +381,13 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
         </button>
 
         <span className="text-xs font-hand font-bold text-[#A34063] hidden sm:inline">
-          Use ← and → keys to turn pages!
+          Swipe or use ← → keys to turn pages!
         </span>
 
         <button
           type="button"
           onClick={goToNext}
-          disabled={currentPage === pages.length - 1}
+          disabled={displayPage === pages.length - 1}
           className="px-5 py-2 rounded-full bg-[#A34063] text-white border-2 border-[#5C4033] text-xs font-rounded font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#852E4D] shadow-xs flex items-center gap-1.5 cursor-pointer"
         >
           <span>Next Page</span>
