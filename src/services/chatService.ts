@@ -1,5 +1,5 @@
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, deleteDoc } from 'firebase/firestore';
-import { auth, isFirebaseConfigured } from './firebase';
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, getDocs, writeBatch } from 'firebase/firestore';
+import { auth, db, isFirebaseConfigured } from './firebase';
 
 export interface ChatMessage {
   id: string;
@@ -12,21 +12,13 @@ export interface ChatMessage {
 const MESSAGES_COLLECTION = 'chat_messages';
 
 /**
- * Initialize Firestore
+ * Get Firestore instance from firebase.ts
  */
 const getFirestoreInstance = () => {
-  if (!isFirebaseConfigured()) {
+  if (!isFirebaseConfigured() || !db) {
     return null;
   }
-  try {
-    const { initializeApp, getApps, getApp } = require('firebase/app');
-    const { getFirestore } = require('firebase/firestore');
-    const app = getApps().length ? getApp() : initializeApp(require('./firebase').getStoredFirebaseConfig());
-    return getFirestore(app);
-  } catch (error) {
-    console.warn('Firestore initialization warning:', error);
-    return null;
-  }
+  return db;
 };
 
 /**
@@ -115,8 +107,8 @@ export const clearChatMessages = async (): Promise<void> => {
 
   try {
     const q = query(collection(db, MESSAGES_COLLECTION));
-    const snapshot = await require('firebase/firestore').getDocs(q);
-    const batch = require('firebase/firestore').writeBatch(db);
+    const snapshot = await getDocs(q);
+    const batch = writeBatch(db);
     snapshot.forEach((doc) => {
       batch.delete(doc.ref);
     });

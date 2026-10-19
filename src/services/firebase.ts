@@ -8,6 +8,7 @@ import {
   User as FirebaseUser,
   Auth
 } from 'firebase/auth';
+import { getFirestore, Firestore } from 'firebase/firestore';
 
 export interface FirebaseConfigObject {
   apiKey: string;
@@ -66,17 +67,18 @@ export const clearFirebaseConfig = (): void => {
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 let googleProvider: GoogleAuthProvider | null = null;
+let db: Firestore | null = null;
 
 export const isFirebaseConfigured = (): boolean => {
   const cfg = getStoredFirebaseConfig();
   return Boolean(cfg && cfg.apiKey && cfg.apiKey.length > 10 && cfg.projectId);
 };
 
-export const initFirebase = (): { auth: Auth | null; isConfigured: boolean } => {
+export const initFirebase = (): { auth: Auth | null; db: Firestore | null; isConfigured: boolean } => {
   const config = getStoredFirebaseConfig();
 
   if (!config || !config.apiKey || config.apiKey === 'YOUR_API_KEY_HERE') {
-    return { auth: null, isConfigured: false };
+    return { auth: null, db: null, isConfigured: false };
   }
 
   try {
@@ -86,21 +88,22 @@ export const initFirebase = (): { auth: Auth | null; isConfigured: boolean } => 
       app = getApp();
     }
     auth = getAuth(app);
+    db = getFirestore(app);
     googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({
       prompt: 'select_account'
     });
-    return { auth, isConfigured: true };
+    return { auth, db, isConfigured: true };
   } catch (error) {
     console.warn('Firebase initialization warning:', error);
-    return { auth: null, isConfigured: false };
+    return { auth: null, db: null, isConfigured: false };
   }
 };
 
 // Initialize on module load
-const { auth: initializedAuth, isConfigured: hasConfig } = initFirebase();
+const { auth: initializedAuth, db: initializedDb, isConfigured: hasConfig } = initFirebase();
 
-export { initializedAuth as auth, googleProvider, hasConfig };
+export { initializedAuth as auth, initializedDb as db, googleProvider, hasConfig };
 
 /**
  * Trigger Real Google Sign-In with Firebase Popup
