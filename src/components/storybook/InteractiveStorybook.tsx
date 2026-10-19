@@ -221,15 +221,14 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
       audioManager.playClickSound();
       setIsAnimating(true);
       setAnimationDirection('next');
-      setDisplayPage(currentPage); // Show current page during flip out
       setTimeout(() => {
         setCurrentPage(currentPage + 1);
-        setDisplayPage(currentPage + 1); // Show new page after flip
+        setDisplayPage(currentPage + 1);
         setTimeout(() => {
           setIsAnimating(false);
           setAnimationDirection(null);
-        }, 400);
-      }, 400);
+        }, 500);
+      }, 500);
     }
   };
 
@@ -238,15 +237,14 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
       audioManager.playClickSound();
       setIsAnimating(true);
       setAnimationDirection('prev');
-      setDisplayPage(currentPage); // Show current page during flip out
       setTimeout(() => {
         setCurrentPage(currentPage - 1);
-        setDisplayPage(currentPage - 1); // Show new page after flip
+        setDisplayPage(currentPage - 1);
         setTimeout(() => {
           setIsAnimating(false);
           setAnimationDirection(null);
-        }, 400);
-      }, 400);
+        }, 500);
+      }, 500);
     }
   };
 
@@ -303,7 +301,7 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
 
       {/* Main Page Turn Viewport */}
       <div
-        className="p-6 sm:p-10 relative min-h-[380px] flex items-center"
+        className="p-6 sm:p-10 relative min-h-[380px] flex items-center overflow-hidden"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -311,9 +309,9 @@ export const InteractiveStorybook: React.FC<InteractiveStorybookProps> = ({ nigh
           className={`grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full ${
             isAnimating
               ? animationDirection === 'next'
-                ? 'animate-[flipOutRight_0.4s_ease-in-out]'
-                : 'animate-[flipOutLeft_0.4s_ease-in-out]'
-              : 'animate-in fade-in duration-300'
+                ? 'animate-[flipOutRight_0.5s_ease-in-out]'
+                : 'animate-[flipOutLeft_0.5s_ease-in-out]'
+              : 'animate-in fade-in duration-500'
           }`}
         >
           

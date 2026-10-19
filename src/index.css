@@ -120,47 +120,63 @@
   animation: sparkle-pulse 2.5s ease-in-out infinite;
 }
 
-/* Page flip animations */
+/* Page flip animations - Realistic 3D book flip */
 @keyframes flipOutRight {
   0% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(2000px) rotateY(0deg) translateX(0);
     opacity: 1;
   }
+  50% {
+    transform: perspective(2000px) rotateY(-45deg) translateX(-50px);
+    opacity: 0.8;
+  }
   100% {
-    transform: perspective(1000px) rotateY(-90deg);
+    transform: perspective(2000px) rotateY(-90deg) translateX(-100px);
     opacity: 0;
   }
 }
 
 @keyframes flipOutLeft {
   0% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(2000px) rotateY(0deg) translateX(0);
     opacity: 1;
   }
+  50% {
+    transform: perspective(2000px) rotateY(45deg) translateX(50px);
+    opacity: 0.8;
+  }
   100% {
-    transform: perspective(1000px) rotateY(90deg);
+    transform: perspective(2000px) rotateY(90deg) translateX(100px);
     opacity: 0;
   }
 }
 
 @keyframes flipInRight {
   0% {
-    transform: perspective(1000px) rotateY(90deg);
+    transform: perspective(2000px) rotateY(90deg) translateX(100px);
     opacity: 0;
   }
+  50% {
+    transform: perspective(2000px) rotateY(45deg) translateX(50px);
+    opacity: 0.8;
+  }
   100% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(2000px) rotateY(0deg) translateX(0);
     opacity: 1;
   }
 }
 
 @keyframes flipInLeft {
   0% {
-    transform: perspective(1000px) rotateY(-90deg);
+    transform: perspective(2000px) rotateY(-90deg) translateX(-100px);
     opacity: 0;
   }
+  50% {
+    transform: perspective(2000px) rotateY(-45deg) translateX(-50px);
+    opacity: 0.8;
+  }
   100% {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(2000px) rotateY(0deg) translateX(0);
     opacity: 1;
   }
 }
