@@ -17,9 +17,11 @@ import { Footer } from './components/common/Footer';
 import { ShoppingBagDrawer } from './components/cart/ShoppingBagDrawer';
 import { EasterEggModal } from './components/easter-egg/EasterEggModal';
 import { CursorSparkles } from './components/common/CursorSparkles';
+import { FlashlightCursor } from './components/common/FlashlightCursor';
 import { TalkToMimiWidget } from './components/chat/TalkToMimiWidget';
 import { TinyChaosOverlay } from './components/chaos/TinyChaosOverlay';
 import { LoginPage } from './components/auth/LoginPage';
+import { CatchDreamsGame } from './components/games/CatchDreamsGame';
 import { Product, CartItem } from './types';
 import { Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { audioManager } from './utils/audioManager';
@@ -93,6 +95,7 @@ function MainApp() {
 
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
+  const [gameOpen, setGameOpen] = useState(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const [discountPercent, setDiscountPercent] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -267,6 +270,9 @@ function MainApp() {
       {/* Sparkle cursor trail (Side Quest 12) */}
       <CursorSparkles />
 
+      {/* Flashlight cursor for night mode (Tier 2) */}
+      <FlashlightCursor nightMode={nightMode} />
+
       {/* Responsive Chaos Mode Overlay (Side Quest 15) */}
       <TinyChaosOverlay
         active={chaosMode}
@@ -295,6 +301,7 @@ function MainApp() {
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
         isMusicPlaying={isMusicPlaying}
         onToggleMusic={handleToggleMusic}
+        onOpenGame={() => setGameOpen(true)}
       />
 
       {/* Dedicated Page Back Link if not on Home and logged in */}
@@ -469,6 +476,14 @@ function MainApp() {
         nightMode={nightMode}
         onApplySecretPromo={handleApplyPromo}
       />
+
+      {/* Catch Dreams Mini-Game */}
+      {gameOpen && (
+        <CatchDreamsGame
+          onClose={() => setGameOpen(false)}
+          nightMode={nightMode}
+        />
+      )}
 
       {/* Floating Toast Notification */}
       {toastMessage && (

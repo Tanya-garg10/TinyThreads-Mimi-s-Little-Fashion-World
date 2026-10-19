@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Moon, Sun, Menu, X, Sparkles, User, Zap, Music, Volume2, VolumeX, LogOut } from 'lucide-react';
+import { ShoppingBag, Moon, Sun, Menu, X, Sparkles, User, Zap, Music, Volume2, VolumeX, LogOut, Gamepad2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { audioManager } from '../../utils/audioManager';
 
@@ -19,6 +19,7 @@ interface NavbarProps {
   onToggleSound: () => void;
   isMusicPlaying: boolean;
   onToggleMusic: () => void;
+  onOpenGame?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -34,7 +35,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   soundEnabled,
   onToggleSound,
   isMusicPlaying,
-  onToggleMusic
+  onToggleMusic,
+  onOpenGame
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -196,6 +198,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
+
+          {/* Mini-Game Button */}
+          {onOpenGame && (
+            <button
+              type="button"
+              onClick={() => {
+                audioManager.playClickSound();
+                onOpenGame();
+              }}
+              title="Play Catch the Dreams Game"
+              aria-label="Play Catch the Dreams Game"
+              className="p-2 rounded-xl border-2 border-[#A34063] bg-[#F7DDE5] text-[#A34063] transition-all cursor-pointer hover:bg-[#EABAC8] hover:scale-105"
+            >
+              <Gamepad2 className="w-4 h-4" />
+            </button>
+          )}
 
           {/* Day / Night Theme Toggle */}
           <button

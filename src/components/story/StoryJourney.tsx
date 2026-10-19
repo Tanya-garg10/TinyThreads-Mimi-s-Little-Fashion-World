@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, BookOpen, ChevronRight, ChevronLeft, Heart } from 'lucide-react';
 import { STORY_SCENES } from '../../data/fashionData';
+import { DreamDeliveryMap } from './DreamDeliveryMap';
 
 interface StoryJourneyProps {
   nightMode: boolean;
@@ -228,6 +229,11 @@ export const StoryJourney: React.FC<StoryJourneyProps> = ({ nightMode }) => {
 
             </div>
           </div>
+        </div>
+
+        {/* Dream Delivery Map Animation */}
+        <div className="mt-16">
+          <DreamDeliveryMap nightMode={nightMode} />
         </div>
 
       </div>

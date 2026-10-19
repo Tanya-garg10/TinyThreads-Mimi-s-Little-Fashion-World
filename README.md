@@ -18,14 +18,19 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 ### ✅ B. Tier 2 Features (100% Complete & Tested)
 6. **Mimi's Lullaby Music Box**: Synthesized with the Web Audio API without external audio files. Plays an original, gentle lullaby sequence with a visible winding key, play/pause controls, and volume mute. Never autoplays.
 7. **Interactive Storybook ("Mimi and the Little Cloud")**: A 4-page illustrated picture book featuring Mimi and a shivering little cloud. Includes next/prev controls, page indicator dots, touch support, and keyboard arrow key navigation.
+8. **Flashlight/Nightlight Cursor**: In night mode, a radial gradient follows the cursor, illuminating the dark dream layers like a flashlight. Disabled on touch devices.
+9. **Dream Delivery Map Animation**: SVG path motion synced with scroll showing Mimi delivering dreams across the night sky from her atelier to baby's nursery.
+10. **Catch the Dreams Mini-Game**: Interactive mini-game where players catch falling stars, clouds, and hearts before they disappear. 30-second timer with scoring system.
 
-### ✅ C. Tier 3 Features (100% Complete & Tested)
+### ✅ C. Tier 3 Features (60% Complete)
 8. **Mimi Remembers You**: Uses `localStorage` to detect returning visitors and greets them with a warm welcome banner ("You’re back, little dreamer! Mimi saved a little magic for you ♡ (Visit #X)") with dismiss functionality.
 9. **Talk to Mimi (Character Chat Widget)**: Interactive rule-based companion in the bottom corner with predefined answers, question chips, and keyword matching. Chat messages are persisted via Firebase Firestore for multi-device sync. Fully transparent and delightful without pretending to be a paid AI API.
 10. **Performance & Code Quality**: Zero broken links, modular TypeScript components, pure CSS/SVG vector art, and 0 lint/compile errors.
+11. **Live Dream Guestbook**: "Leave Mimi a Little Note" wall where visitors can submit their name, message, and choice of sticker (🐰, 🎀, ☁️, ⭐, 🧵). Persists in `localStorage` and includes an entry removal button for the user's note.
+12. ⚠️ **3D WebGL / Three.js Model**: Not yet implemented (optional)
+13. ⚠️ **High Lighthouse Scores (90+)**: Performance optimization pending (optional)
 
-### ✅ D. Five Official Side Quests (All 5 Implemented: +13 Bonus Points)
-11. **Guestbook (+2)**: "Leave Mimi a Little Note" wall where visitors can submit their name, message, and choice of sticker (🐰, 🎀, ☁️, ⭐, 🧵). Persists in `localStorage` and includes an entry removal button for the user's note.
+### ✅ D. Four Official Side Quests (All 4 Implemented: +11 Bonus Points)
 12. **Sparkle Cursor Trail (+2)**: Subtle desktop sparkle trail on pointer movement, disabled on touch, respecting reduced-motion preferences.
 13. **Visitor Hit Counter (+1)**: Retro odometer counter showing dreamers visited with clearly labeled browser-local count distinction.
 14. **Click Sounds + Mute (+3)**: Synthesized gentle UI click sounds using the Web Audio API with a persistent mute switch. Starts muted by default.
@@ -91,8 +96,10 @@ bun run lint
 ### Immersive Experience
 - **Day/Night Theme**: Toggle between sunny cream and dreamy starry night modes
 - **Music Box**: Synthesized lullaby player with Web Audio API (no external files)
-- **Storybook**: Interactive 4-page picture book "Mimi and the Little Cloud"
+- **Storybook**: Interactive 4-page picture book "Mimi and the Little Cloud" with page flip animation
 - **Sparkle Cursor**: Delightful sparkle trail on desktop (respects motion preferences)
+- **Flashlight Cursor**: Night mode flashlight effect illuminating dark layers
+- **Dream Delivery Map**: SVG path animation synced with scroll
 
 ### E-Commerce Features
 - **Collections**: Browse curated fashion collections for little ones
@@ -105,6 +112,7 @@ bun run lint
 - **Easter Egg**: Find the hidden golden needle for a surprise discount
 - **Chaos Mode**: A fun retro "early web" animated mode
 - **Visitor Counter**: Track how many dreamers have visited
+- **Catch Dreams Game**: Mini-game to catch falling stars, clouds, and hearts
 
 ### Authentication
 - **Demo Accounts**: Quick access with pre-configured demo accounts
@@ -157,14 +165,15 @@ tinythreads/
 │   │   ├── character/        # Mimi illustrations
 │   │   ├── chat/             # Talk to Mimi widget
 │   │   ├── collections/      # Product collections
-│   │   ├── common/           # Shared components (Navbar, Footer, etc.)
+│   │   ├── common/           # Shared components (Navbar, Footer, FlashlightCursor, etc.)
 │   │   ├── easter-egg/       # Secret sewing box
+│   │   ├── games/            # Mini-games (Catch Dreams)
 │   │   ├── guestbook/        # Visitor notes
 │   │   ├── hero/             # Hero section
 │   │   ├── mimi/             # Meet Mimi section
 │   │   ├── newsletter/       # Newsletter signup
 │   │   ├── outfit-builder/   # Custom outfit creator
-│   │   ├── story/            # Story journey
+│   │   ├── story/            # Story journey (includes Dream Delivery Map)
 │   │   ├── storybook/        # Interactive storybook
 │   │   └── testimonials/     # Customer reviews
 │   ├── context/              # React contexts (Auth, etc.)
