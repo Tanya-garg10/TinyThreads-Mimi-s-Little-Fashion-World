@@ -61,15 +61,185 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 ## 🚀 Running the App Locally
 
 ```bash
-# 1. Install dependencies
-npm install
+# 1. Install dependencies (Bun is recommended for faster installs)
+bun install
+# or npm install
 
 # 2. Run development server (Port 3000)
-npm run dev
+bun run dev
+# or npm run dev
 
 # 3. Build for production
-npm run build
+bun run build
+# or npm run build
 
 # 4. Check TypeScript types
-npm run lint
+bun run lint
+# or npm run lint
 ```
+
+---
+
+## 🌟 Key Features
+
+### Interactive Character
+- **Mimi the Bunny**: A cursor-reactive character that follows your mouse with smooth eye tracking
+- **Touch Interactions**: Tap Mimi on mobile for a wink and heart animation
+- **Character Chat**: Talk to Mimi through an interactive widget with fun responses
+
+### Immersive Experience
+- **Day/Night Theme**: Toggle between sunny cream and dreamy starry night modes
+- **Music Box**: Synthesized lullaby player with Web Audio API (no external files)
+- **Storybook**: Interactive 4-page picture book "Mimi and the Little Cloud"
+- **Sparkle Cursor**: Delightful sparkle trail on desktop (respects motion preferences)
+
+### E-Commerce Features
+- **Collections**: Browse curated fashion collections for little ones
+- **Outfit Builder**: Mix and match pieces to create custom outfits
+- **Shopping Bag**: Add items to your cart with a smooth drawer interface
+- **Quick View**: Fast product previews with detailed information
+
+### Community & Fun
+- **Guestbook**: Leave a note for Mimi with cute stickers
+- **Easter Egg**: Find the hidden golden needle for a surprise discount
+- **Chaos Mode**: A fun retro "early web" animated mode
+- **Visitor Counter**: Track how many dreamers have visited
+
+### Authentication
+- **Demo Accounts**: Quick access with pre-configured demo accounts
+- **Google Sign-In**: Firebase authentication integration
+- **Member Passport**: View your profile and saved outfits
+
+---
+
+## 📱 Responsive Design
+
+Optimized for all screen sizes:
+- 📱 Mobile: 360px, 390px
+- 📱 Tablet: 768px
+- 💻 Desktop: 1024px, 1440px
+
+---
+
+## 🎨 Customization
+
+### Environment Variables
+Create a `.env` file based on `.env.example`:
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+---
+
+## 📦 Project Structure
+
+```
+tinythreads/
+├── src/
+│   ├── components/
+│   │   ├── atelier/          # Atelier & crafting section
+│   │   ├── audio/            # Music box player
+│   │   ├── auth/             # Login/Authentication
+│   │   ├── cart/             # Shopping bag drawer
+│   │   ├── chaos/            # Chaos mode overlay
+│   │   ├── character/        # Mimi illustrations
+│   │   ├── chat/             # Talk to Mimi widget
+│   │   ├── collections/      # Product collections
+│   │   ├── common/           # Shared components (Navbar, Footer, etc.)
+│   │   ├── easter-egg/       # Secret sewing box
+│   │   ├── guestbook/        # Visitor notes
+│   │   ├── hero/             # Hero section
+│   │   ├── mimi/             # Meet Mimi section
+│   │   ├── newsletter/       # Newsletter signup
+│   │   ├── outfit-builder/   # Custom outfit creator
+│   │   ├── story/            # Story journey
+│   │   ├── storybook/        # Interactive storybook
+│   │   └── testimonials/     # Customer reviews
+│   ├── context/              # React contexts (Auth, etc.)
+│   ├── data/                 # Static data (fashion items)
+│   ├── services/             # Firebase & API services
+│   ├── utils/                # Audio manager & utilities
+│   ├── App.tsx               # Main app component
+│   ├── main.tsx              # Entry point
+│   └── index.css             # Global styles
+├── public/                   # Static assets
+├── index.html                # HTML template
+├── package.json              # Dependencies
+├── tsconfig.json             # TypeScript config
+├── vite.config.ts            # Vite config
+└── tailwind.config.js        # Tailwind CSS config
+```
+
+---
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+### Netlify
+```bash
+# Build
+npm run build
+
+# Deploy dist/ folder to Netlify
+```
+
+### GitHub Pages
+```bash
+# Build
+npm run build
+
+# Deploy using gh-pages
+npm install -D gh-pages
+npx gh-pages -d dist
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue**: Port 3000 already in use
+**Solution**: Change the port in `package.json` or run `bun run dev --port=3001`
+
+**Issue**: Firebase authentication not working
+**Solution**: Ensure your `.env` file has valid Firebase credentials
+
+**Issue**: Tailwind classes not applying
+**Solution**: Run `bun install` to ensure all dependencies are installed
+
+---
+
+## 📞 Support
+
+For questions or issues, please open an issue on GitHub or contact the maintainers.
+
+---
+
+Made with ♡ by Mimi and the TinyThreads team
