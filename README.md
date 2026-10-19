@@ -4,8 +4,6 @@
 
 A whimsical, character-driven baby fashion boutique and interactive atelier where Mimi the bunny designs dreamy outfits for little adventurers.
 
----
-
 ## 🏆 Project Architecture & Feature Status Report
 
 ### ✅ A. All Tier 1 Requirements (100% Complete & Tested)
@@ -30,11 +28,11 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 12. **3D WebGL / Three.js Model**: Interactive 3D Mimi character with Three.js - toggle between 2D illustration and 3D model in Meet Mimi section. Features mouse tracking, floating animation, and sparkle particles.
 13. **High Lighthouse Scores (90+)**: Performance optimizations including code splitting, lazy loading for heavy components, terser minification, preconnect hints for external resources, and modern browser targeting.
 
-### ✅ D. Four Official Side Quests (All 4 Implemented: +11 Bonus Points)
-12. **Sparkle Cursor Trail (+2)**: Subtle desktop sparkle trail on pointer movement, disabled on touch, respecting reduced-motion preferences.
-13. **Visitor Hit Counter (+1)**: Retro odometer counter showing dreamers visited with clearly labeled browser-local count distinction.
-14. **Click Sounds + Mute (+3)**: Synthesized gentle UI click sounds using the Web Audio API with a persistent mute switch. Starts muted by default.
-15. **Responsive Chaos Mode (+5)**: Opt-in "Tiny Chaos Mode ⚡" featuring early-web animated stickers ("BEST OF WEB 2002", "100% PINCH-FREE SEAMS", "Under Construction 🚧"), rainbow animated thread border, and instant one-click toggle off.
+### ✅ D. Four Official Side Quests (All 4 Implemented)
+12. **Sparkle Cursor Trail**: Subtle desktop sparkle trail on pointer movement, disabled on touch, respecting reduced-motion preferences.
+13. **Visitor Hit Counter**: Retro odometer counter showing dreamers visited with clearly labeled browser-local count distinction.
+14. **Click Sounds + Mute**: Synthesized gentle UI click sounds using the Web Audio API with a persistent mute switch. Starts muted by default.
+15. **Responsive Chaos Mode**: Opt-in "Tiny Chaos Mode ⚡" featuring early-web animated stickers ("BEST OF WEB 2002", "100% PINCH-FREE SEAMS", "Under Construction 🚧"), rainbow animated thread border, and instant one-click toggle off.
 
 ### ✅ E. Multi-Page Architecture & Authentication
 - **Multi-Page & Landing Page Modes**:
@@ -50,8 +48,6 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
   - **Google / Firebase Sign-In**: Connected via `AuthContext` with graceful profile synchronization.
   - **Member Passport**: Displays user role, active status, saved outfits count, and sign out controls.
 
----
-
 ## 🛠️ Tech Stack & Architecture
 
 - **Frontend**: React 19, TypeScript, Vite
@@ -61,8 +57,6 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 - **Confetti**: Canvas Confetti
 - **State & Storage**: React Context + LocalStorage persistence
 - **Backend**: Firebase (Authentication, Firestore for chat persistence)
-
----
 
 ## 🚀 Running the App Locally
 
@@ -83,8 +77,6 @@ bun run build
 bun run lint
 # or npm run lint
 ```
-
----
 
 ## 🌟 Key Features
 
@@ -118,16 +110,12 @@ bun run lint
 - **Google Sign-In**: Firebase authentication integration
 - **Member Passport**: View your profile and saved outfits
 
----
-
 ## 📱 Responsive Design
 
 Optimized for all screen sizes:
 - 📱 Mobile: 360px, 390px
 - 📱 Tablet: 768px
 - 💻 Desktop: 1024px, 1440px
-
----
 
 ## 🎨 Customization
 
@@ -147,8 +135,6 @@ VITE_FIREBASE_APP_ID=your_app_id
 - User authentication (Google Sign-In, demo accounts)
 - Chat message persistence (sync across devices)
 - If Firebase is not configured, the app will use localStorage as a fallback
-
----
 
 ## 📦 Project Structure
 
@@ -189,8 +175,6 @@ tinythreads/
 └── tailwind.config.js        # Tailwind CSS config
 ```
 
----
-
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
@@ -220,42 +204,16 @@ npm install -D gh-pages
 npx gh-pages -d dist
 ```
 
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
----
 
 ## 📄 License
 
 This project is open source and available under the MIT License.
 
----
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Issue**: Port 3000 already in use
-**Solution**: Change the port in `package.json` or run `bun run dev --port=3001`
-
-**Issue**: Firebase authentication not working
-**Solution**: Ensure your `.env` file has valid Firebase credentials
-
-**Issue**: Tailwind classes not applying
-**Solution**: Run `bun install` to ensure all dependencies are installed
-
-**Issue**: Chat messages not syncing across devices
-**Solution**: Ensure Firebase is properly configured with Firestore enabled. If not configured, the app will use localStorage fallback.
-
----
-
 ## 📞 Support
 
 For questions or issues, please open an issue on GitHub or contact the maintainers.
 
----
-
-Made with ♡ by Mimi and the TinyThreads team
+Made with ♡ by Tanya Garg
