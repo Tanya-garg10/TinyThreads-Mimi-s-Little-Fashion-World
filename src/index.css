@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FFF8F1;
+  --color-blush: #F7DDE5;
+  --color-blush-light: #FDF3F6;
+  --color-blush-dark: #EABAC8;
+  --color-berry: #A34063;
+  --color-berry-dark: #7B2846;
+  --color-berry-light: #C45E83;
+  --color-chocolate: #5C4033;
+  --color-chocolate-light: #835C49;
+  --color-butter: #F5D88B;
+  --color-butter-light: #FCF6DC;
+  --color-sage: #DCE8D7;
+  --color-sage-light: #F1F6EF;
+  --color-sage-dark: #A9C6A0;
+  --color-lavender: #E8DFF5;
+  --color-lavender-light: #F7F3FC;
+  --color-lavender-dark: #C8BAE4;
+  --color-night-bg: #1B1222;
+  --color-night-card: #281B34;
+  --color-night-surface: #382548;
+  --color-night-text: #F3E8FF;
+  --color-night-muted: #BFA8D6;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-rounded: 'Fredoka', cursive, sans-serif;
+  --font-hand: 'Caveat', cursive;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+}
+
+/* Custom whimsical patterns & stitch styles */
+.stitch-border {
+  border: 2px dashed #A34063;
+}
+
+.stitch-border-soft {
+  border: 1.5px dashed rgba(163, 64, 99, 0.4);
+}
+
+.night .stitch-border-soft {
+  border: 1.5px dashed rgba(216, 180, 226, 0.35);
+}
+
+.scallop-edge {
+  background-image: radial-gradient(circle at 10px -5px, transparent 12px, white 13px);
+  background-size: 20px 20px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF8F1;
+}
+.night ::-webkit-scrollbar-track {
+  background: #1B1222;
+}
+::-webkit-scrollbar-thumb {
+  background: #EABAC8;
+  border-radius: 9999px;
+  border: 2px solid #FFF8F1;
+}
+.night ::-webkit-scrollbar-thumb {
+  background: #7B2846;
+  border: 2px solid #1B1222;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A34063;
+}
+
+/* Subtle gentle floating animation */
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+@keyframes gentle-float-alt {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(-1.5deg);
+  }
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% {
+    transform: scale(0.9) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: gentle-float 4s ease-in-out infinite;
+}
+
+.animate-float-alt {
+  animation: gentle-float-alt 5s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle-pulse 2.5s ease-in-out infinite;
+}
+
+/* Retro visitor counter digits */
+.counter-box {
+  background: #2D1B28;
+  color: #F5D88B;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+  border: 1px solid #7B2846;
+}
