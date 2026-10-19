@@ -21,7 +21,7 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 
 ### ✅ C. Tier 3 Features (100% Complete & Tested)
 8. **Mimi Remembers You**: Uses `localStorage` to detect returning visitors and greets them with a warm welcome banner ("You’re back, little dreamer! Mimi saved a little magic for you ♡ (Visit #X)") with dismiss functionality.
-9. **Talk to Mimi (Character Chat Widget)**: Interactive rule-based companion in the bottom corner with predefined answers, question chips, and keyword matching. Fully transparent and delightful without pretending to be a paid AI API.
+9. **Talk to Mimi (Character Chat Widget)**: Interactive rule-based companion in the bottom corner with predefined answers, question chips, and keyword matching. Chat messages are persisted via Firebase Firestore for multi-device sync. Fully transparent and delightful without pretending to be a paid AI API.
 10. **Performance & Code Quality**: Zero broken links, modular TypeScript components, pure CSS/SVG vector art, and 0 lint/compile errors.
 
 ### ✅ D. Five Official Side Quests (All 5 Implemented: +13 Bonus Points)
@@ -55,6 +55,7 @@ A whimsical, character-driven baby fashion boutique and interactive atelier wher
 - **Icons**: Lucide React
 - **Confetti**: Canvas Confetti
 - **State & Storage**: React Context + LocalStorage persistence
+- **Backend**: Firebase (Authentication, Firestore for chat persistence)
 
 ---
 
@@ -85,7 +86,7 @@ bun run lint
 ### Interactive Character
 - **Mimi the Bunny**: A cursor-reactive character that follows your mouse with smooth eye tracking
 - **Touch Interactions**: Tap Mimi on mobile for a wink and heart animation
-- **Character Chat**: Talk to Mimi through an interactive widget with fun responses
+- **Character Chat**: Talk to Mimi through an interactive widget with fun responses (persisted via Firebase)
 
 ### Immersive Experience
 - **Day/Night Theme**: Toggle between sunny cream and dreamy starry night modes
@@ -135,6 +136,11 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 ```
 
+**Note**: Firebase is required for:
+- User authentication (Google Sign-In, demo accounts)
+- Chat message persistence (sync across devices)
+- If Firebase is not configured, the app will use localStorage as a fallback
+
 ---
 
 ## 📦 Project Structure
@@ -163,7 +169,7 @@ tinythreads/
 │   │   └── testimonials/     # Customer reviews
 │   ├── context/              # React contexts (Auth, etc.)
 │   ├── data/                 # Static data (fashion items)
-│   ├── services/             # Firebase & API services
+│   ├── services/             # Firebase (auth, chat) & API services
 │   ├── utils/                # Audio manager & utilities
 │   ├── App.tsx               # Main app component
 │   ├── main.tsx              # Entry point
@@ -233,6 +239,9 @@ This project is open source and available under the MIT License.
 
 **Issue**: Tailwind classes not applying
 **Solution**: Run `bun install` to ensure all dependencies are installed
+
+**Issue**: Chat messages not syncing across devices
+**Solution**: Ensure Firebase is properly configured with Firestore enabled. If not configured, the app will use localStorage fallback.
 
 ---
 

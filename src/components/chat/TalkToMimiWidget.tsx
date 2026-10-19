@@ -1,13 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles, Heart } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
-
-interface ChatMessage {
-  id: string;
-  sender: 'mimi' | 'user';
-  text: string;
-  time: string;
-}
+import { subscribeToChatMessages, sendChatMessage, saveMessagesToLocal, type ChatMessage } from '../../services/chatService';
 
 interface TalkToMimiWidgetProps {
   nightMode: boolean;
@@ -36,6 +30,16 @@ export const TalkToMimiWidget: React.FC<TalkToMimiWidgetProps> = ({ nightMode, o
       scrollToBottom();
     }
   }, [messages, isOpen]);
+
+  // Subscribe to Firebase chat messages
+  useEffect(() => {
+    const unsubscribe = subscribeToChatMessages((fetchedMessages) => {
+      if (fetchedMessages.length > 0) {
+        setMessages(fetchedMessages);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   const quickQuestions = [
     { label: 'Who are you, Mimi? 🐰', query: 'Tell me about yourself, Mimi!' },
@@ -86,6 +90,13 @@ export const TalkToMimiWidget: React.FC<TalkToMimiWidgetProps> = ({ nightMode, o
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
 
+    // Save user message to Firebase
+    sendChatMessage({
+      sender: 'user',
+      text: text.trim(),
+      time: 'Now'
+    });
+
     // Simulate gentle bunny typing delay
     setTimeout(() => {
       const replyText = generateMimiResponse(text);
@@ -97,6 +108,16 @@ export const TalkToMimiWidget: React.FC<TalkToMimiWidgetProps> = ({ nightMode, o
       };
       setMessages((prev) => [...prev, mimiMsg]);
       audioManager.playTone(659.25, 0.2, 0.08); // pleasant chime
+
+      // Save Mimi's response to Firebase
+      sendChatMessage({
+        sender: 'mimi',
+        text: replyText,
+        time: 'Just now'
+      });
+
+      // Fallback: save to localStorage
+      saveMessagesToLocal([...messages, userMsg, mimiMsg]);
     }, 450);
   };
 
