@@ -18,5 +18,34 @@ export default defineConfig(() => {
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
+    build: {
+      // Enable code splitting for better performance
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split vendor dependencies
+            'react-vendor': ['react', 'react-dom'],
+            'firebase-vendor': ['firebase'],
+            'lucide-vendor': ['lucide-react'],
+            'motion-vendor': ['motion'],
+            'three-vendor': ['three'],
+          },
+        },
+      },
+      // Optimize chunk size
+      chunkSizeWarningLimit: 1000,
+      // Minify CSS
+      cssMinify: true,
+      // Target modern browsers for better performance
+      target: 'esnext',
+      // Enable compression
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+    },
   };
 });

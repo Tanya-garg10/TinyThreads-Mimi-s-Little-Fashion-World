@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AnnouncementBar } from './components/common/AnnouncementBar';
 import { Navbar, AppPage } from './components/common/Navbar';
 import { WelcomeBackBanner } from './components/common/WelcomeBackBanner';
 import { HeroSection } from './components/hero/HeroSection';
 import { MeetMimi } from './components/mimi/MeetMimi';
-import { CollectionsSection } from './components/collections/CollectionsSection';
-import { OutfitBuilder } from './components/outfit-builder/OutfitBuilder';
-import { AtelierSection } from './components/atelier/AtelierSection';
-import { StoryJourney } from './components/story/StoryJourney';
-import { InteractiveStorybook } from './components/storybook/InteractiveStorybook';
-import { GuestbookSection } from './components/guestbook/GuestbookSection';
-import { CustomerLove } from './components/testimonials/CustomerLove';
-import { NewsletterSection } from './components/newsletter/NewsletterSection';
 import { Footer } from './components/common/Footer';
 import { ShoppingBagDrawer } from './components/cart/ShoppingBagDrawer';
 import { EasterEggModal } from './components/easter-egg/EasterEggModal';
@@ -21,10 +13,19 @@ import { FlashlightCursor } from './components/common/FlashlightCursor';
 import { TalkToMimiWidget } from './components/chat/TalkToMimiWidget';
 import { TinyChaosOverlay } from './components/chaos/TinyChaosOverlay';
 import { LoginPage } from './components/auth/LoginPage';
-import { CatchDreamsGame } from './components/games/CatchDreamsGame';
 import { Product, CartItem } from './types';
 import { Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { audioManager } from './utils/audioManager';
+
+// Lazy load heavy components for better performance
+const OutfitBuilder = lazy(() => import('./components/outfit-builder/OutfitBuilder'));
+const InteractiveStorybook = lazy(() => import('./components/storybook/InteractiveStorybook'));
+const StoryJourney = lazy(() => import('./components/story/StoryJourney'));
+const GuestbookSection = lazy(() => import('./components/guestbook/GuestbookSection'));
+const AtelierSection = lazy(() => import('./components/atelier/AtelierSection'));
+const CollectionsSection = lazy(() => import('./components/collections/CollectionsSection'));
+const CustomerLove = lazy(() => import('./components/testimonials/CustomerLove'));
+const NewsletterSection = lazy(() => import('./components/newsletter/NewsletterSection'));
 
 function MainApp() {
   // Navigation Page View: 'home' | 'collections' | 'tailor' | 'storybook' | 'atelier' | 'guestbook' | 'login'
@@ -95,7 +96,6 @@ function MainApp() {
 
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
-  const [gameOpen, setGameOpen] = useState(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const [discountPercent, setDiscountPercent] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -301,7 +301,6 @@ function MainApp() {
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
         isMusicPlaying={isMusicPlaying}
         onToggleMusic={handleToggleMusic}
-        onOpenGame={() => setGameOpen(true)}
       />
 
       {/* Dedicated Page Back Link if not on Home and logged in */}
@@ -348,17 +347,23 @@ function MainApp() {
                 onOpenTailorStudio={() => handleNavigate('tailor')}
               />
 
-              <CollectionsSection
-                nightMode={nightMode}
-                onAddToCart={handleAddToCart}
-              />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading collections...</div>}>
+                <CollectionsSection
+                  nightMode={nightMode}
+                  onAddToCart={handleAddToCart}
+                />
+              </Suspense>
 
-              <OutfitBuilder
-                nightMode={nightMode}
-                onAddCustomLookToCart={handleAddCustomLook}
-              />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading tailor studio...</div>}>
+                <OutfitBuilder
+                  nightMode={nightMode}
+                  onAddCustomLookToCart={handleAddCustomLook}
+                />
+              </Suspense>
 
-              <AtelierSection nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading atelier...</div>}>
+                <AtelierSection nightMode={nightMode} />
+              </Suspense>
 
               {/* Interactive Storybook Highlight */}
               <section className="py-16 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -373,36 +378,50 @@ function MainApp() {
                     A gentle bedtime picture book with touch and keyboard page-turning.
                   </p>
                 </div>
-                <InteractiveStorybook nightMode={nightMode} />
+                <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading storybook...</div>}>
+                  <InteractiveStorybook nightMode={nightMode} />
+                </Suspense>
               </section>
 
-              <StoryJourney nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading story journey...</div>}>
+                <StoryJourney nightMode={nightMode} />
+              </Suspense>
 
-              <GuestbookSection nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading guestbook...</div>}>
+                <GuestbookSection nightMode={nightMode} />
+              </Suspense>
 
-              <CustomerLove nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading testimonials...</div>}>
+                <CustomerLove nightMode={nightMode} />
+              </Suspense>
 
-              <NewsletterSection nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading newsletter...</div>}>
+                <NewsletterSection nightMode={nightMode} />
+              </Suspense>
             </>
           )}
 
           {/* PAGE 2: DEDICATED COLLECTIONS PAGE */}
           {currentPage === 'collections' && (
             <div className="pt-4">
-              <CollectionsSection
-                nightMode={nightMode}
-                onAddToCart={handleAddToCart}
-              />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading collections...</div>}>
+                <CollectionsSection
+                  nightMode={nightMode}
+                  onAddToCart={handleAddToCart}
+                />
+              </Suspense>
             </div>
           )}
 
           {/* PAGE 3: DEDICATED TINY TAILOR STUDIO PAGE */}
           {currentPage === 'tailor' && (
             <div className="pt-4">
-              <OutfitBuilder
-                nightMode={nightMode}
-                onAddCustomLookToCart={handleAddCustomLook}
-              />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading tailor studio...</div>}>
+                <OutfitBuilder
+                  nightMode={nightMode}
+                  onAddCustomLookToCart={handleAddCustomLook}
+                />
+              </Suspense>
             </div>
           )}
 
@@ -410,16 +429,22 @@ function MainApp() {
           {currentPage === 'storybook' && (
             <div className="pt-4 space-y-12">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <InteractiveStorybook nightMode={nightMode} />
+                <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading storybook...</div>}>
+                  <InteractiveStorybook nightMode={nightMode} />
+                </Suspense>
               </div>
-              <StoryJourney nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading story journey...</div>}>
+                <StoryJourney nightMode={nightMode} />
+              </Suspense>
             </div>
           )}
 
           {/* PAGE 5: DEDICATED ATELIER PAGE */}
           {currentPage === 'atelier' && (
             <div className="pt-4">
-              <AtelierSection nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading atelier...</div>}>
+                <AtelierSection nightMode={nightMode} />
+              </Suspense>
               <MeetMimi
                 nightMode={nightMode}
                 onOpenTailorStudio={() => handleNavigate('tailor')}
@@ -430,7 +455,9 @@ function MainApp() {
           {/* PAGE 6: DEDICATED GUESTBOOK PAGE */}
           {currentPage === 'guestbook' && (
             <div className="pt-4">
-              <GuestbookSection nightMode={nightMode} />
+              <Suspense fallback={<div className="h-40 flex items-center justify-center">Loading guestbook...</div>}>
+                <GuestbookSection nightMode={nightMode} />
+              </Suspense>
             </div>
           )}
 
@@ -476,14 +503,6 @@ function MainApp() {
         nightMode={nightMode}
         onApplySecretPromo={handleApplyPromo}
       />
-
-      {/* Catch Dreams Mini-Game */}
-      {gameOpen && (
-        <CatchDreamsGame
-          onClose={() => setGameOpen(false)}
-          nightMode={nightMode}
-        />
-      )}
 
       {/* Floating Toast Notification */}
       {toastMessage && (

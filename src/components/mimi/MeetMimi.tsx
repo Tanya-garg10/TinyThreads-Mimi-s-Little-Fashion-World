@@ -1,6 +1,7 @@
-import React from 'react';
-import { Sparkles, Heart, Compass, Scissors, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Heart, Compass, Scissors, Star, Box } from 'lucide-react';
 import { MimiSewingMachine } from '../character/MimiIllustrations';
+import { Mimi3DModel } from '../character/Mimi3DModel';
 
 interface MeetMimiProps {
   nightMode: boolean;
@@ -8,6 +9,8 @@ interface MeetMimiProps {
 }
 
 export const MeetMimi: React.FC<MeetMimiProps> = ({ nightMode, onOpenTailorStudio }) => {
+  const [show3D, setShow3D] = useState(false);
+
   const traits = [
     {
       title: 'Imagination collector',
@@ -163,9 +166,33 @@ export const MeetMimi: React.FC<MeetMimiProps> = ({ nightMode, onOpenTailorStudi
                 </span>
               </div>
 
-              {/* Sewing Machine Illustration */}
+              {/* Sewing Machine Illustration / 3D Model Toggle */}
               <div className="flex justify-center py-4">
-                <MimiSewingMachine className="w-56 h-48" />
+                {show3D ? (
+                  <div className="w-full h-48 relative">
+                    <Mimi3DModel nightMode={nightMode} />
+                  </div>
+                ) : (
+                  <MimiSewingMachine className="w-56 h-48" />
+                )}
+              </div>
+
+              {/* 3D Toggle Button */}
+              <div className="flex justify-center py-2">
+                <button
+                  onClick={() => setShow3D(!show3D)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-rounded font-bold border-2 transition-all ${
+                    show3D
+                      ? 'bg-[#A34063] text-white border-[#A34063]'
+                      : nightMode
+                      ? 'bg-[#2E1D3D] text-[#F5D88B] border-[#5E3B7A] hover:bg-[#3D2A4D]'
+                      : 'bg-[#F7DDE5] text-[#A34063] border-[#EABAC8] hover:bg-[#F5C8D8]'
+                  }`}
+                >
+                  <Box className="w-3.5 h-3.5" />
+                  <span>{show3D ? 'View 2D Illustration' : 'View 3D Mimi'}</span>
+                  <Sparkles className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               {/* Swatch Board & Tools */}
